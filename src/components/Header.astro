@@ -1,0 +1,106 @@
+---
+import Marquee from "./Marquee.astro";
+
+const marqueeText = [
+    "M31U",
+    "Digital *",
+    "Art,",
+    "Design,",
+    "&Photography",
+    "By MattBlu",
+];
+
+const menuItems = [
+    {
+        title: "Photography",
+        link: "/photos",
+    },
+    {
+        title: "Design",
+        link: "/design",
+    },
+];
+---
+
+<header
+    class:list={[
+        "flex",
+        "relative",
+        "p-6",
+        "m-6",
+        "max-w-screen",
+        "font-mono",
+        "bg-[#010101]",
+        "text-zinc-100",
+        "rounded-md",
+    ]}
+>
+    <Marquee marqueeText={marqueeText} />
+    <div
+        class:list={[
+            "menu",
+            "absolute",
+            "group",
+            "top-3",
+            "right-3",
+            "space-x-1",
+        ]}
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class:list={[
+                "w-6",
+                "h-6",
+                "absolute",
+                "right-0",
+                "sm:hidden",
+                "group-hover:hidden",
+            ]}
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        </svg>
+        <div
+            class:list={[
+                "flex",
+                "absolute",
+                "-right-3",
+                "bg-[#010101]",
+                "p-6",
+                "flex-col",
+                "invisible",
+                "divide-solid",
+                "group-hover:visible",
+                "sm:flex-row",
+                "sm:space-x-2",
+                "sm:visible",
+                "sm:p-0",
+                "sm:right-0",
+                "transition-all",
+            ]}
+        >
+            {
+                menuItems.map((item) => {
+                    return (
+                        <a
+                            class:list={[
+                                "transition-all",
+                                "sm:hover:pr-3",
+                                "hover:text-zinc-500",
+                            ]}
+                            href={item.link}
+                        >
+                            {item.title}
+                        </a>
+                    );
+                })
+            }
+        </div>
+    </div>
+</header>

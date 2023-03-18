@@ -1,0 +1,68 @@
+---
+interface Props {
+    marqueeText: string[];
+}
+
+const { marqueeText } = Astro.props;
+
+const createCSSAnimation = (function (length: number) {
+    const percentageOfEach = Math.floor(100 / length);
+    return function (_: unknown, index: number) {
+        const start = index * percentageOfEach;
+        const end = (index + 1) * percentageOfEach;
+        return `
+        @keyframes fade-${index} {
+            ${start}% {
+                opacity: 0;
+            }
+            ${start + 1}% {
+                opacity: 1;
+            }
+            ${end - 1}% {
+                opacity: 1;
+            }
+            ${end}% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        .marqueeText-${index} {
+            animation: fade-${index} ${length * 500}ms;
+        }`;
+    };
+})(marqueeText.length);
+---
+
+<div class:list={["marqueeText", "flex", "group"]}>
+    <style set:text={marqueeText.map(createCSSAnimation).join("\n")}></style>
+    {
+        marqueeText.map((text, index) => {
+            return (
+                <a
+                    href="/"
+                    class:list={[
+                        `marqueeText-${index}`,
+                        "absolute",
+                        "left-3",
+                        "top-3",
+                        `${
+                            index !== 0 ? "opacity-0" : "group-hover:opacity-0"
+                        }`,
+                        `${
+                            index !== marqueeText.length - 1
+                                ? ""
+                                : "group-hover:opacity-100"
+                        }`,
+                        "transition-all",
+                        "group-hover:left-6",
+                        "group-hover:text-zinc-500",
+                    ]}
+                >
+                    {text}
+                </a>
+            );
+        })
+    }
+</div>
