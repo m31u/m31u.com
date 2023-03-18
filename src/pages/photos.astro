@@ -19,7 +19,7 @@ const galleryList = readdirSync(path.join(cwd(), galleryRoot)).filter(file => {
 
         <div slot="body" id="galleryList">
             { galleryList.map(gallery => {
-                return <a href={path.join('photo_galleries', gallery)}>{gallery.split("_").join(" ")}</a>
+                return <a href={path.join('/photo_galleries', gallery)}>{gallery.split("_").join(" ")}</a>
             })}
         </div>
     </ArticleOfText>
