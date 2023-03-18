@@ -1,0 +1,36 @@
+---
+import { readdirSync, statSync } from "fs";
+import path from "path";
+import { cwd } from "process";
+import ArticleOfText from "../../layouts/ArticleOfText.astro";
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+    return readdirSync(path.join(cwd(), "public/galleries"))
+        .filter((file) => {
+            return statSync(path.join(cwd(), "public/galleries", file)).isDirectory();
+        })
+        .map((dir) => {
+            return { params: { photo_gallery: dir } };
+        });
+}
+
+const { photo_gallery = "" } = Astro.params;
+
+const photos = readdirSync(path.join(cwd(), "public/galleries", photo_gallery)).map(
+    (photo) => path.join("/galleries", photo_gallery, photo)
+);
+
+const galleryName = photo_gallery.split("_").join(" ");
+---
+
+<Layout title={`M31U - ${galleryName}`}>
+    <ArticleOfText>
+        <Fragment slot="title">{galleryName}</Fragment>
+        <Fragment slot="body">
+            {photos.map(photo => {
+                return <img src={photo} />
+            })}
+        </Fragment>
+    </ArticleOfText>
+</Layout>

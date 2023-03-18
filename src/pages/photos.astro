@@ -1,0 +1,26 @@
+---
+import ArticleOfText from "../layouts/ArticleOfText.astro";
+import Layout from "../layouts/Layout.astro"
+import { readdirSync, statSync } from 'fs';
+import { cwd } from "process";
+import path from "path";
+
+const galleryRoot = 'public/galleries'
+const galleryList = readdirSync(path.join(cwd(), galleryRoot)).filter(file => {
+    return statSync(path.join(cwd(), galleryRoot, file)).isDirectory()
+});
+
+
+---
+
+<Layout title="M31U - Photography">
+    <ArticleOfText>
+        <Fragment slot="title">Photo Galleries</Fragment>
+
+        <div slot="body" id="galleryList">
+            { galleryList.map(gallery => {
+                return <a href={path.join('photo_galleries', gallery)}>{gallery.split("_").join(" ")}</a>
+            })}
+        </div>
+    </ArticleOfText>
+</Layout>
