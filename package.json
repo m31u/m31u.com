@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": " COMMIT=$(git log --format=\"%h\" -n 1) astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
